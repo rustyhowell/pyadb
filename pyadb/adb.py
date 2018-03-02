@@ -8,9 +8,9 @@ try:
     import os
     import re
     import subprocess
-except ImportError,e:
+except ImportError as e:
     # should never be reached
-    print "[f] Required module missing. %s" % e.args[0]
+    print("[f] Required module missing. %s" % e.args[0])
     sys.exit(-1)
 
 class ADB():
@@ -125,6 +125,10 @@ class ADB():
                                   stderr = subprocess.PIPE, shell = False)
             (self.__output, self.__error) = adb_proc.communicate()
             self.__return = adb_proc.returncode
+
+            if sys.version_info[0] >= 3:
+                self.__output = self.__output.decode('utf-8')
+                self.__error = self.__error.decode('utf-8')
 
             if( len(self.__output) == 0 ):
                 self.__output = None
