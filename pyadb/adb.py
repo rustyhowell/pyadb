@@ -14,7 +14,7 @@ except ImportError as e:
     sys.exit(-1)
 
 class ADB():
-    PYADB_VERSION = "0.1.4"
+    PYADB_VERSION = "0.1.5"
     
     __adb_path = None
     __output = None
@@ -36,7 +36,11 @@ class ADB():
         return self.PYADB_VERSION
 
     def __init__(self,adb_path=None):
-        self.__adb_path = adb_path
+        if adb_path is None:
+            p = subprocess.check_output(['which', 'adb'])
+            if len(p) > 0:
+                adb_path = p.strip()
+        self.set_adb_path(adb_path)
 
     def __clean__(self):
         self.__output = None

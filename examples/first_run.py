@@ -12,17 +12,20 @@ except ImportError as e:
     sys.exit(-1)
 
 def main():
-    # creates the ADB object
+    # creates the ADB object using the system adb
     adb = ADB()
-    # IMPORTANT: You should supply the absolute path to ADB binary 
-    path = '/usr/bin/adb'
+    print("Version: %s" % adb.get_version())
+
+    # Or create ADB object with specific version of adb
+    path = '/home/chema/.android-sdks/platform-tools/adb'
+    adb = ADB(path)
+
     if adb.set_adb_path(path):
         print("Version: %s" % adb.get_version())
     else:
         print("Check ADB binary path")
         return
 
-        
     print(adb.get_devices())
 
 
